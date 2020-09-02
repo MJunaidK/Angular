@@ -1,5 +1,8 @@
-<a style="cursor: pointer" class="list-group-item clearfix"
-    >
+
+<a style="cursor: pointer" 
+    [routerLink]="[index]" 
+    routerLinkActive="active"
+    class="list-group-item clearfix">
     <div class="pull-left">
         <h4 class="list-group-item-heading"> {{recipe.name }} </h4>
         <p class="list-group-item-text"> {{recipe.description }} </p>
@@ -8,3 +11,8 @@
         <img [src]=recipe.imagePath alt="" class="img-responsive" style="max-height: 50px">
     </span>
 </a>
+<!--[routerLink]="[index]"  -->
+
+<!-- We will bind routerLink with square brackets because now I want to pass this array which allows me to really configure segment for segment of my path
+    Now the first segment is alos the only segment that will be the id I want to load. So I will use a reative path because this element here the list  already is loaded at 
+    /recipes so whenever I just add the ID here that is all we want because then we are going to end up at recipes/id   -->
