@@ -26,6 +26,10 @@ export class RecipeEditComponent implements OnInit {
     )
   }
 
+  onSubmit(){
+    this.recipeForm;
+  }
+
   private initForm(){
     
     let recipeName='';
@@ -46,5 +50,7 @@ export class RecipeEditComponent implements OnInit {
 
      });
   }
+
+
 
 }
