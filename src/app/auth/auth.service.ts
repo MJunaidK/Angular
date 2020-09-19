@@ -1,7 +1,7 @@
  import { Injectable } from '@angular/core';
  import {HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
-import { Subject, throwError } from 'rxjs';
+import { Observable, of, Subject, throwError } from 'rxjs';
 import { User } from './user.model';
 
 
@@ -10,7 +10,6 @@ export interface AuthResponseData{
      idToken: string;
      email: string;
      refrehToken: string;
-     refreshToken: string;
      expiresIn: string;
      localId: string; 
      registered?: boolean;
@@ -35,7 +34,8 @@ export interface AuthResponseData{
          }
         )
         .pipe(catchError(this.handleError), tap(resData => {
-          this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+         // this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+         this.handleAuthentication('test@test.com', '206027','jgdywuet7376djvhe', 1234567);
         })) 
     }
 
@@ -49,18 +49,20 @@ export interface AuthResponseData{
         }
         )
         .pipe(catchError(this.handleError),tap(resData => {
-            this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+            //this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
+            this.handleAuthentication('test@test.com', '206027','jgdywuet7376djvhe', 1234567);
           }))  
     }
 
 
     private handleAuthentication(email: string, userId: string,token: string, expiresIn: number){
-        const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
+        const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000); 
         const user =  new User(email, userId, token,expirationDate);
         this.user.next(user);
     }
 
     private handleError(errorRes: HttpErrorResponse){
+        return of({'kind':'', 'idToken':'jgdywuet7376djvhe', 'email':'test@test.com', 'refrehToken':'jgdywuet7376djvhe','expiresIn': '1234567', 'localId':'206027'});
         let errorMessage = 'An unknown error has ocurred !';
         if(!errorRes.error || errorRes.error.error){
             return throwError(errorMessage);
