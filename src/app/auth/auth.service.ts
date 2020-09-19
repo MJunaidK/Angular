@@ -1,5 +1,5 @@
  import { Injectable } from '@angular/core';
- import {HttpClient } from '@angular/common/http';
+ import {HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
@@ -30,18 +30,8 @@ export interface AuthResponseData{
              password: password,
              returnSecureToken: true
          }
-        ).pipe(catchError(errorRes => {
-            let errorMessage = 'An unknown error has ocurred !';
-            if(!errorRes.error || errorRes.error.error){
-                return throwError(errorMessage);
-            }
-            switch(errorRes.error.error.message){
-               case 'EMAIL_EXISTS':
-                   errorMessage: 'This email exists already'; 
-            }
-
-            return throwError(errorMessage);
-        })) 
+        )
+        .pipe(catchError(this.handleError)) 
     }
 
 
@@ -53,5 +43,26 @@ export interface AuthResponseData{
             returnSecureToken: true
         }
         )
+        .pipe(catchError(this.handleError)) 
+    }
+
+    private handleError(errorRes: HttpErrorResponse){
+        let errorMessage = 'An unknown error has ocurred !';
+        if(!errorRes.error || errorRes.error.error){
+            return throwError(errorMessage);
+        }
+        switch(errorRes.error.error.message){
+            case 'EMAIL_EXISTS':
+               errorMessage: 'This email exists already'; 
+               break;
+            case 'EMAIL_NOT_FOUND':
+               errorMessage: 'This email does not exist'; 
+               break;
+            case 'INAVLID_PASSWORD':
+               errorMessage: 'This password is not correct'; 
+               break;   
+        }
+
+        return throwError(errorMessage);
     }
  }
