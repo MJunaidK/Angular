@@ -21,7 +21,7 @@ export class DataStorageService{
         );
     }
 
-    fetchRecipes(){
+   /* fetchRecipes(){
         
         return this.authService.user.pipe(
             take(1),
@@ -39,6 +39,20 @@ export class DataStorageService{
                 this.recipesService.setRecipes(recipes);
             })
         )     
-    }
+    } */
 
+
+    fetchRecipes(){
+        
+        return this.http.get<Recipe[]>('GET_URL').pipe(
+            map(recipes =>{
+                return recipes.map(recipe => {
+                    return  {...recipe, ingredients: recipe.ingredients ? recipe.ingredients: []};
+                });
+            }),
+            tap(recipes => {
+                this.recipesService.setRecipes(recipes);
+            })
+        )              
+    }
 }
