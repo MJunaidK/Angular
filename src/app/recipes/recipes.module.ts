@@ -5,9 +5,10 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { RecipeItemComponent } from './recipe-list/recipe-item/recipe-item.component';
 import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RecipeRoutingModule } from '../recipes/recipe-routing.module'; 
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     imports: [
         RouterModule,
         CommonModule,
-        ReactiveFormsModule 
+        ReactiveFormsModule,
+        RecipeRoutingModule        
     ],
     exports: [
         RecipesComponent,
