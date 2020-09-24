@@ -4,6 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 
 export interface AuthResponseData{
@@ -44,6 +45,7 @@ export interface AuthResponseData{
 
 
     login(email: string, password: string ){
+        console.log(environment.apikey);
        return this.http.post<AuthResponseData>('FIRBASE_LOGIN_URL',
         {
             email: email,
