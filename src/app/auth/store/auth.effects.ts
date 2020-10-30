@@ -27,8 +27,9 @@ const handleAuthentication = (expiresIn: number, email: string, userId: string, 
             email:  email,
             userId: userId,
             token: token,
-            expirationDate: expirationDate
-          })
+            expirationDate: expirationDate,
+            redirect: true
+          })  
 }
 
 const handleError = (errorRes) => {
@@ -128,8 +129,10 @@ export class AuthEffects{
     @Effect({dispatch: false})
     authRedirect = this.action$.pipe(
         ofType(AuthActions.AUTHENTICATE_SUCCESS),
-        tap(() => {
-            this.router.navigate(['/']);
+        tap((authSuccesAction: AuthActions.AuthenticateSuccess) => {
+            if(authSuccesAction.payload.redirect){
+               this.router.navigate(['/']);
+            }
         })
     )
 
@@ -152,7 +155,8 @@ export class AuthEffects{
                   email:  loadedUser.email,
                   userId: loadedUser.id,
                   token: loadedUser.token,
-                  expirationDate:   new Date(userData._tokenExpirationDate)
+                  expirationDate:   new Date(userData._tokenExpirationDate),
+                  redirect: false
                 })
                 
                 //const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
